@@ -1,4 +1,8 @@
 class KittensController < ApplicationController
+  # require 'flickr'
+  before_action :require_login, only: :show
+
+
   def new
     @kitten = Kitten.new
   end
@@ -17,10 +21,21 @@ class KittensController < ApplicationController
 
   def index
     @kittens = Kitten.all
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @kittens }
+      format.json { render :json => @kittens }
+    end
+    flickr_setup
   end
 
   def show
     @kitten = Kitten.find(params[:id])
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @kitten }
+      format.json { render :json => @kitten }
+    end
   end
 
   def edit
@@ -44,9 +59,37 @@ class KittensController < ApplicationController
     redirect_to root_path, status: :see_other
   end
 
+  def flickr_setup
+    flickr = Flickr.new(ENV['FLICKR_API_KEY'], ENV['FLICKR_SHARED_SECRET']) 
+     if params[:flikr_user_id]
+        begin
+          @photos = flickr.people.getPublicPhotos(user_id: params[:flickr_user_id], api_key: ENV['FLICKR_API_KEY'])
+        rescue Flickr::FailedResponse
+          flash[:alert] = 'User not found'
+          @photos = flickr.photos.search(api_key: ENV['FLICKR_API_KEY'], tags: 'kitten', per_page: 10)
+        end
+      else
+        @photos = flickr.photos.search(api_key: ENV['FLICKR_API_KEY'], tags: 'kitten', per_page: 10)
+    end
+  end
+
   private
 
   def kitten_params
     params.require(:kitten).permit(:name, :age, :cuteness, :softness)
+  end
+
+  def require_login
+    unless logged_in?
+      flash[:error] = "You must be logged in to access this section"
+      head :bad_request
+
+      # redirect_to kittens_path
+    end
+  end
+
+  def logged_in?
+    # true
+    false
   end
 end

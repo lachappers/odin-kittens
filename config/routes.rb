@@ -1,11 +1,9 @@
 Rails.application.routes.draw do
-  get 'kittens/new'
-  get 'kittens/create'
-  get 'kittens/index'
-  get 'kittens/show'
-  get 'kittens/edit'
-  get 'kittens/update'
-  get 'kittens/destroy'
+  # get 'errors/not_found'
+  # get 'errors/internal_server_error'
+  match "/404", to: "errors#not_found", via: :all
+  match "/500", to: "errors#internal_server_error", via: :all
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

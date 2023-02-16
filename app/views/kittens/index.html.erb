@@ -21,3 +21,16 @@
 </div>
 <br><br>
 <%= link_to "New kitten", new_kitten_path %>
+
+<hr>
+
+<h4>See your kitten gallery:</h4>
+  <%= form_with url: '', method: :get do |f| %>
+    <%= f.text_field :flickr_user_id, placeholder: "197781506@N08", required: true %>
+    <%= f.submit "Search" %>
+  <% end %>
+
+  <%# <% if @photos %> %>
+    <% @photos.each do |p|%>
+      <img src="<%= p.url %>" alt="A Flickr Photo">
+    <% end%>

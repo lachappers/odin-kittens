@@ -70,3 +70,9 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+# Flickr API
+gem 'flickr', '~> 2.1'
+
+# Figaro 
+gem "figaro"
