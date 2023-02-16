@@ -25,12 +25,12 @@
 <hr>
 
 <h4>See your kitten gallery:</h4>
-  <%= form_with url: '', method: :get do |f| %>
+  <%= form_with url: 'kittens#index', method: :get do |f| %>
     <%= f.text_field :flickr_user_id, placeholder: "197781506@N08", required: true %>
     <%= f.submit "Search" %>
   <% end %>
 
-  <%# <% if @photos %> %>
+  <%# <% if @photos %>
     <% @photos.each do |p|%>
-      <img src="<%= p.url %>" alt="A Flickr Photo">
+      <%= image_tag Flickr.url_q(p) %>
     <% end%>

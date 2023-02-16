@@ -73,6 +73,7 @@ end
 
 # Flickr API
 gem 'flickr', '~> 2.1'
+# gem 'flickr.rb'
 
 # Figaro 
 gem "figaro"

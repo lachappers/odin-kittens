@@ -1,5 +1,6 @@
+# require 'flickr'
 class KittensController < ApplicationController
-  # require 'flickr'
+
   before_action :require_login, only: :show
 
 
@@ -26,7 +27,7 @@ class KittensController < ApplicationController
       format.xml  { render :xml => @kittens }
       format.json { render :json => @kittens }
     end
-    flickr_setup
+    @photos = flickr_setup
   end
 
   def show
@@ -59,19 +60,27 @@ class KittensController < ApplicationController
     redirect_to root_path, status: :see_other
   end
 
+  require 'flickr'
+
   def flickr_setup
-    flickr = Flickr.new(ENV['FLICKR_API_KEY'], ENV['FLICKR_SHARED_SECRET']) 
-     if params[:flikr_user_id]
+
+  
+    # flickr = Flickr.new
+    flickr = Flickr.new(ENV['flickr_key'], ENV['flickr_secret']) 
+    @photos = []
+     if params[:flickr_user_id]
         begin
-          @photos = flickr.people.getPublicPhotos(user_id: params[:flickr_user_id], api_key: ENV['FLICKR_API_KEY'])
+          @photos = flickr.people.getPublicPhotos(user_id: params[:flickr_user_id])
         rescue Flickr::FailedResponse
           flash[:alert] = 'User not found'
-          @photos = flickr.photos.search(api_key: ENV['FLICKR_API_KEY'], tags: 'kitten', per_page: 10)
+          @photos = flickr.photos.search(tags: 'kitten', per_page: 10)
+          
         end
       else
-        @photos = flickr.photos.search(api_key: ENV['FLICKR_API_KEY'], tags: 'kitten', per_page: 10)
+        @photos = flickr.photos.search( tags: 'kitten', per_page: 10)
     end
   end
+
 
   private
 
