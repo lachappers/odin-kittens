@@ -1,0 +1,23 @@
+<h1>Kittens#index</h1>
+<p style="color: green"><%= notice %></p>
+<div>
+  <table>
+    <thead>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Cuteness</th>
+      <th>Softness</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <% @kittens.each do |kitten|%>
+        <tr> 
+          <%= render kitten %>
+          <td><%= button_to "Destroy this kitten", kitten, method: :delete %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<br><br>
+<%= link_to "New kitten", new_kitten_path %>

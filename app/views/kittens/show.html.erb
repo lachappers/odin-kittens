@@ -1,0 +1,23 @@
+<h1>Kittens#show</h1>
+
+<p id='notice' style="color: green"><%= notice %></p>
+
+
+  <table>
+    <thead>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Cuteness</th>
+      <th>Softness</th>
+    </thead>
+    <tbody>
+        <tr> <%= render @kitten %></tr>
+    </tbody>
+  </table>
+
+<br><br>
+<div>
+  <%= link_to "Edit this kitten", edit_kitten_path(@kitten) %> |
+  <%= link_to "Back to kittens", kittens_path %>
+  <%= button_to "Destroy this kitten", @kitten, method: :delete %>
+</div>
